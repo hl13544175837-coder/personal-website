@@ -161,23 +161,37 @@ nav {
 .letter text {
     font-size: 100px;
     font-weight: bold;
-    stroke-width: 1;
+    stroke-width: 2;
     fill: none;
-    stroke: url(#gradient1);
+    stroke: #FF3366;
     font-family: 'Dancing Script', cursive;
     letter-spacing: -2px;
     paint-order: stroke;
     stroke-linecap: round;
     stroke-linejoin: round;
+    animation: rainbow 3s linear infinite;
+}
+
+.letter:nth-child(1) text { animation-delay: 0s; }
+.letter:nth-child(2) text { animation-delay: 0.5s; }
+.letter:nth-child(3) text { animation-delay: 1s; }
+.letter:nth-child(4) text { animation-delay: 1.5s; }
+.letter:nth-child(5) text { animation-delay: 2s; }
+.letter:nth-child(6) text { animation-delay: 2.5s; }
+
+@keyframes rainbow {
+    0% { stroke: #FF3366; filter: drop-shadow(0 0 10px #FF3366); }
+    17% { stroke: #FF6B6B; filter: drop-shadow(0 0 10px #FF6B6B); }
+    33% { stroke: #FFA07A; filter: drop-shadow(0 0 10px #FFA07A); }
+    50% { stroke: #FF69B4; filter: drop-shadow(0 0 10px #FF69B4); }
+    67% { stroke: #DA70D6; filter: drop-shadow(0 0 10px #DA70D6); }
+    83% { stroke: #9370DB; filter: drop-shadow(0 0 10px #9370DB); }
+    100% { stroke: #FF3366; filter: drop-shadow(0 0 10px #FF3366); }
 }
 
 .letter:hover {
     transform: translateY(-8px) rotate(-5deg);
 }
-
-.gradient-stop-1 { stop-color: #FF3366; }
-.gradient-stop-2 { stop-color: #FF6B6B; }
-.gradient-stop-3 { stop-color: #FFA07A; }
 
 .subtitle {
     font-size: 1.1rem;
