@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HELONG | 内容</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .articles-page {
+            min-height: 100vh;
+            padding: 120px 4rem 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 3rem;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: #ffffff;
+        }
+
+        .back-link svg {
+            transition: transform 0.2s ease;
+        }
+
+        .back-link:hover svg {
+            transform: translateX(-3px);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 2.5rem;
+            letter-spacing: 2px;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 10px 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-tab:hover,
+        .filter-tab.active {
+            border-color: var(--accent-pink);
+            color: #ffffff;
+            background: rgba(255, 51, 102, 0.1);
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .article-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .article-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-pink);
+            box-shadow: 0 20px 60px rgba(255, 51, 102, 0.15);
+        }
+
+        .article-image {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(255, 51, 102, 0.2), rgba(255, 107, 107, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .article-image .emoji {
+            font-size: 4rem;
+        }
+
+        .article-content {
+            padding: 24px;
+        }
+
+        .article-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(255, 51, 102, 0.15);
+            color: var(--accent-pink);
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .article-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .article-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .article-detail {
+            display: none;
+        }
+
+        .article-detail.active {
+            display: block;
+        }
+
+        .article-full-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+            margin-top: 2rem;
+        }
+
+        .article-full-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .article-full-content p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .close-detail {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            padding: 8px 16px;
+            background: var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .close-detail:hover {
+            background: var(--accent-pink);
+            color: #ffffff;
+        }
+
+        @media (max-width: 768px) {
+            .articles-page {
+                padding: 100px 1.5rem 40px;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="noise"></div>
+    <div class="light-effect"></div>
+
+    <header>
+        <nav>
+            <div class="logo-section">
+                <a href="index.html" class="logo">HELONG</a>
+            </div>
+            <div class="social-links">
+                <a href="https://github.com/hl13544175837-coder" target="_blank" class="social-link">GitHub</a>
+                <a href="https://www.douyin.com/user/self?from_tab_name=main" target="_blank" class="social-link">抖音</a>
+                <a href="https://www.xiaohongshu.com/user/profile/63646de7000000001f01ad71" target="_blank" class="social-link">小红书</a>
+                <a href="https://www.woshipm.com/u/1673669" target="_blank" class="social-link">产品经理</a>
+                <a href="#" class="social-link">公众号</a>
+                <a href="#" class="social-link">优设</a>
+                <a href="#" class="social-link">少数派</a>
+                <a href="mailto:1248551752@qq.com" class="social-link">邮箱</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="articles-page">
+        <a href="index.html" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            返回首页
+        </a>
+
+        <div class="filter-tabs">
+            <div class="filter-tab active" data-filter="all">全部</div>
+            <div class="filter-tab" data-filter="project">项目</div>
+            <div class="filter-tab" data-filter="experience">经历</div>
+            <div class="filter-tab" data-filter="skill">技能</div>
+        </div>
+
+        <h2 class="section-title">所有内容</h2>
+
+        <div class="articles-grid" id="articlesGrid">
+            <div class="article-card" data-category="project" data-detail="coscraft">
+                <div class="article-image">
+                    <span class="emoji">🎨</span>
+                </div>
+                <div class="article-content">
+                    <span class="article-tag">AI工具</span>
+                    <h3 class="article-title">CosCraft - AI生成Cosplay资料</h3>
+                    <p class="article-desc">AI生成Cosplay服装手工制作参考资料工具，帮助玩家快速获取制作指南</p>
+                    <div class="article-meta">
+                        <span class="date">2024</span>
+                        <span class="author">查看详情</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="article-card" data-category="project" data-detail="ciyuan">
+                <div class="article-image">
+                    <span class="emoji">🔄</span>
+                </div>
+                <div class="article-content">
+                    <span class="article-tag">产品设计</span>
+                    <h3 class="article-title">次元置换 - 二次元物物交换</h3>
+                    <p class="article-desc">二次元物物交换平台，连接同好者实现闲置物品流转</p>
+                    <div class="article-meta">
+                        <span class="date">2024</span>
+                        <span class="author">查看详情</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="article-card" data-category="experience" data-detail="alibaba">
+                <div class="article-image">
+                    <span class="emoji">🏢</span>
+                </div>
+                <div class="article-content">
+                    <span class="article-tag">工作经历</span>
+                    <h3 class="article-title">阿里巴巴 - AI训练师</h3>
+                    <p class="article-desc">参与大模型数据标注、效果评估、质量把控等工作，深入了解AI产品运作机制</p>
+                    <div class="article-meta">
+                        <span class="date">2024-2025</span>
+                        <span class="author">查看详情</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="article-card" data-category="skill" data-detail="ai-tools">
+                <div class="article-image">
+                    <span class="emoji">🤖</span>
+                </div>
+                <div class="article-content">
+                    <span class="article-tag">技能</span>
+                    <h3 class="article-title">AI工具学习笔记</h3>
+                    <p class="article-desc">系统学习ChatGPT、Claude、MiniMax等AI工具，探索AI产品可能性</p>
+                    <div class="article-meta">
+                        <span class="date">2024 至今</span>
+                        <span class="author">查看详情</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="article-card" data-category="experience" data-detail="pm转型">
+                <div class="article-image">
+                    <span class="emoji">🚀</span>
+                </div>
+                <div class="article-content">
+                    <span class="article-tag">转型思考</span>
+                    <h3 class="article-title">从AI训练师到AI PM的转型</h3>
+                    <p class="article-desc">分享我对AI产品经理的理解和转型规划，如何从执行者走向决策者</p>
+                    <div class="article-meta">
+                        <span class="date">2025</span>
+                        <span class="author">查看详情</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="article-card" data-category="skill" data-detail="数据标注">
+                <div class="article-image">
+                    <span class="emoji">📊</span>
+                </div>
+                <div class="article-content">
+                    <span class="article-tag">技能</span>
+                    <h3 class="article-title">数据标注与质量把控</h3>
+                    <p class="article-desc">大模型数据标注的核心方法论、质量评估体系和实战经验总结</p>
+                    <div class="article-meta">
+                        <span class="date">2024</span>
+                        <span class="author">查看详情</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="article-detail" id="articleDetail">
+            <button class="close-detail" onclick="closeDetail()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                返回列表
+            </button>
+            <div class="article-full-content" id="detailContent">
+            </div>
+        </div>
+    </main>
+
+    <script src="js/light-effect.js"></script>
+    <script>
+        const articleDetails = {
+            coscraft: {
+                title: 'CosCraft - AI生成Cosplay资料工具',
+                content: `
+                    <p><strong>项目介绍</strong></p>
+                    <p>CosCraft是一款AI生成Cosplay服装手工制作参考资料的工具。它帮助Cosplay爱好者快速获取服装制作指南、材料清单和制作步骤。</p>
+                    <p><strong>我的职责</strong></p>
+                    <p>作为产品设计者，我负责需求分析、用户调研和产品功能设计。通过与AI训练师合作，优化生成效果。</p>
+                    <p><strong>技术栈</strong></p>
+                    <p>基于GPT-4V和Stable Diffusion实现服装图像生成，结合LoRA模型实现特定风格定制。</p>
+                    <p><strong>学到的产品思维</strong></p>
+                    <p>通过这个项目，我学会了如何将AI能力转化为用户可感知的产品价值，这是我从AI训练师向AI PM转型的重要实践。</p>
+                `
+            },
+            ciyuan: {
+                title: '次元置换 - 二次元物物交换平台',
+                content: `
+                    <p><strong>项目背景</strong></p>
+                    <p>二次元爱好者群体庞大，闲置物品流转需求强烈，但缺乏专业的交换平台。</p>
+                    <p><strong>解决方案</strong></p>
+                    <p>打造一个安全、便捷的物物交换平台，支持手办、服饰、周边等物品的交换。</p>
+                    <p><strong>核心功能</strong></p>
+                    <p>物品发布、智能匹配、交换信用体系、交易保障等。</p>
+                    <p><strong>产品思考</strong></p>
+                    <p>这个项目让我深入思考如何用产品设计解决信任问题和匹配效率问题。</p>
+                `
+            },
+            alibaba: {
+                title: '阿里巴巴AI训练师经历',
+                content: `
+                    <p><strong>工作内容</strong></p>
+                    <p>在阿里巴巴担任AI训练师，主要负责大模型数据标注、效果评估和质量把控工作。</p>
+                    <p><strong>核心能力</strong></p>
+                    <p>• 熟练掌握数据标注规范和质量评估标准<br>• 能够快速识别模型输出质量问题并提出优化建议<br>• 与算法团队紧密协作，推动模型效果提升</p>
+                    <p><strong>收获与成长</strong></p>
+                    <p>通过这份工作，我深入了解了AI产品的运作机制，培养了对AI产品的感觉，这成为我转型AI PM的重要基础。</p>
+                `
+            },
+            'ai-tools': {
+                title: 'AI工具学习笔记',
+                content: `
+                    <p><strong>学习历程</strong></p>
+                    <p>系统学习ChatGPT、Claude、MiniMax等主流AI工具，深入了解它们的能力边界和应用场景。</p>
+                    <p><strong>工具熟练度</strong></p>
+                    <p>• ChatGPT: 日常对话、代码辅助、文案创作<br>• Claude: 长文本分析、逻辑推理、创意写作<br>• Midjourney: 图像生成、风格探索<br>• Stable Diffusion: 本地部署、自定义模型</p>
+                    <p><strong>产品思考</strong></p>
+                    <p>学习AI工具不仅是掌握操作技巧，更重要的是理解AI的能力边界和局限性，这为产品设计提供重要参考。</p>
+                `
+            },
+            'pm转型': {
+                title: '从AI训练师到AI PM的转型规划',
+                content: `
+                    <p><strong>转型动机</strong></p>
+                    <p>在阿里巴巴做AI训练师期间，我发现自己不仅关注模型效果，更关注如何让AI技术被更多人用起来、产生价值。这促使我开始思考产品方向。</p>
+                    <p><strong>能力储备</strong></p>
+                    <p>• AI技术理解：深入了解大模型原理、数据标注和质量评估<br>• 产品思维：通过CosCraft和次元置换项目积累产品设计经验<br>• 用户视角：从训练师视角转向用户视角，理解用户真实需求</p>
+                    <p><strong>未来规划</strong></p>
+                    <p>希望在AI产品领域深耕，做出让用户真正受益的AI产品。</p>
+                `
+            },
+            '数据标注': {
+                title: '数据标注与质量把控方法论',
+                content: `
+                    <p><strong>标注规范制定</strong></p>
+                    <p>根据不同任务类型制定详细的标注规范，确保标注结果的一致性和准确性。</p>
+                    <p><strong>质量评估体系</strong></p>
+                    <p>建立多维度质量评估体系，包括准确率、召回率、一致性等指标。</p>
+                    <p><strong>实战经验</strong></p>
+                    <p>• 积累了大量NLP和CV任务的标注经验<br>• 擅长发现数据中的边界case并针对性优化<br>• 能够快速定位质量问题根因</p>
+                    <p><strong>可迁移能力</strong></p>
+                    <p>这些经验对于AI PM理解AI产品能力边界、设计合理的产品方案非常有价值。</p>
+                `
+            }
+        };
+
+        let currentFilter = 'all';
+
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentFilter = tab.dataset.filter;
+                filterArticles();
+            });
+        });
+
+        function filterArticles() {
+            document.querySelectorAll('.article-card').forEach(card => {
+                if (currentFilter === 'all' || card.dataset.category === currentFilter) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        document.querySelectorAll('.article-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const detailKey = card.dataset.detail;
+                const detail = articleDetails[detailKey];
+                if (detail) {
+                    document.getElementById('detailContent').innerHTML = `
+                        <h2>${detail.title}</h2>
+                        ${detail.content}
+                    `;
+                    document.getElementById('articleDetail').classList.add('active');
+                    document.getElementById('articlesGrid').style.display = 'none';
+                    document.querySelector('.section-title').style.display = 'none';
+                    document.querySelector('.filter-tabs').style.display = 'none';
+                    window.scrollTo(0, 0);
+                }
+            });
+        });
+
+        function closeDetail() {
+            document.getElementById('articleDetail').classList.remove('active');
+            document.getElementById('articlesGrid').style.display = 'grid';
+            document.querySelector('.section-title').style.display = 'block';
+            document.querySelector('.filter-tabs').style.display = 'flex';
+        }
+    </script>
+</body>
+</html>
