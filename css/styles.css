@@ -364,6 +364,38 @@ nav {
     margin-bottom: 16px;
 }
 
+.project-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.project-link-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    background: rgba(255, 255, 255, 0.85);
+    font-size: 0.84rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.project-link-btn:hover {
+    border-color: var(--accent-pink);
+    transform: translateY(-1px);
+}
+
+.project-link-btn.primary {
+    color: #fff;
+    border-color: transparent;
+    background: linear-gradient(120deg, var(--accent-pink), #ff6a3d);
+}
+
 .project-highlights,
 .project-results {
     margin-top: 16px;
