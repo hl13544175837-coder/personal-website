@@ -1,0 +1,804 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>志愿报告</title>
+  <style>
+    :root {
+      --bg: #f2f3f7;
+      --panel: #ffffff;
+      --line: #e5e8ef;
+      --text: #151926;
+      --muted: #697283;
+      --brand: #215eea;
+      --brand2: #2f79ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      letter-spacing: 0;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+    }
+
+    .phone {
+      width: min(428px, 100%);
+      height: min(920px, 96vh);
+      background: #f4f5f8;
+      border-radius: 30px;
+      border: 1px solid #d7deea;
+      overflow: hidden;
+      box-shadow: 0 28px 70px rgba(17, 26, 52, 0.2);
+      display: grid;
+      grid-template-rows: auto auto 1fr auto auto;
+      animation: slideUp 380ms ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .status {
+      padding: 12px 16px 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+    }
+
+    .time {
+      font-size: 16px;
+    }
+
+    .sig {
+      display: flex;
+      gap: 7px;
+      align-items: center;
+      font-size: 12px;
+      color: #293141;
+    }
+
+    .sig-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: #18ca61;
+    }
+
+    .header {
+      padding: 4px 14px 10px;
+      border-bottom: 1px solid #e8ebf2;
+      display: grid;
+      grid-template-columns: 42px 1fr auto;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .back {
+      border: 0;
+      background: transparent;
+      font-size: 34px;
+      line-height: 1;
+      color: #1d2434;
+      cursor: pointer;
+    }
+
+    .header h1 {
+      margin: 0;
+      text-align: center;
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .archive {
+      border: 1px solid #e6eaf1;
+      border-radius: 14px;
+      background: #f0f2f6;
+      color: #212a3c;
+      padding: 10px 13px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .scroll {
+      overflow: auto;
+      padding: 10px 14px 14px;
+    }
+
+    .notice {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .notice-tag {
+      border-radius: 8px;
+      background: linear-gradient(120deg, var(--brand), var(--brand2));
+      color: #fff;
+      padding: 5px 8px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .notice p {
+      margin: 0;
+      font-size: 15px;
+      color: #252c3a;
+      line-height: 1.4;
+    }
+
+    .notice button {
+      border: 0;
+      background: transparent;
+      font-size: 30px;
+      color: #3d4657;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: flex-end;
+      padding: 12px 0 10px;
+    }
+
+    .hero button {
+      border: 0;
+      border-radius: 24px;
+      background: linear-gradient(135deg, #1f57dd, #2f7bff);
+      color: #fff;
+      font-size: 22px;
+      font-weight: 700;
+      padding: 13px 22px;
+      cursor: pointer;
+      box-shadow: 0 14px 28px rgba(33, 94, 234, 0.3);
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+      padding: 14px;
+    }
+
+    .profile-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .profile-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 26%, #30b6ff 0%, #0e88fa 70%);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 19px;
+    }
+
+    .profile-title h2 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .stamp {
+      margin-top: 1px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .edit-btn {
+      border: 1px solid var(--line);
+      background: #f8fafd;
+      color: #364157;
+      border-radius: 11px;
+      padding: 8px 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .basic-grid {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-bottom: 10px;
+    }
+
+    .basic-item {
+      border-right: 1px solid var(--line);
+      padding: 10px 8px;
+      min-height: 80px;
+    }
+
+    .basic-item:last-child {
+      border-right: 0;
+    }
+
+    .k {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .v {
+      font-size: 21px;
+      line-height: 1.1;
+      font-weight: 700;
+      color: #1f2739;
+      word-break: break-all;
+    }
+
+    .detail {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .detail-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .detail-row:last-child {
+      border-bottom: 0;
+    }
+
+    .detail-item {
+      border-right: 1px solid var(--line);
+      padding: 10px 11px;
+    }
+
+    .detail-item:last-child {
+      border-right: 0;
+    }
+
+    .detail .k {
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .detail .v {
+      font-size: 16px;
+      line-height: 1.2;
+      min-height: 20px;
+    }
+
+    .editable {
+      border: 1px dashed #b8c4da;
+      border-radius: 8px;
+      padding: 6px 7px;
+      background: #f8fbff;
+    }
+
+    .agent-copy {
+      margin: 14px 0 10px;
+      font-size: 20px;
+      line-height: 1.52;
+      color: #161d2d;
+    }
+
+    .primary-cta-wrap {
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
+
+    .primary-cta {
+      width: calc(100% - 26px);
+      border: 0;
+      border-radius: 16px;
+      padding: 14px 18px;
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, #1f5de7, #2e7bff 70%);
+      cursor: pointer;
+      box-shadow: 0 12px 24px rgba(30, 93, 233, 0.24);
+    }
+
+    .cta-arrow {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: -15px;
+      width: 74px;
+      height: 74px;
+      border-radius: 999px;
+      border: 1px solid #dfe5f2;
+      background: #f9fbff;
+      color: #111827;
+      font-size: 38px;
+      line-height: 1;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+    }
+
+    .quick-tools {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin-bottom: 12px;
+    }
+
+    .quick-tools button {
+      border: 0;
+      border-right: 1px solid var(--line);
+      background: transparent;
+      color: #202939;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 13px 6px;
+      cursor: pointer;
+    }
+
+    .quick-tools button:last-child {
+      border-right: 0;
+    }
+
+    .chat-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .chat-log {
+      max-height: 205px;
+      overflow: auto;
+      background: linear-gradient(180deg, #fbfcff 0%, #f7f9fd 100%);
+      padding: 10px;
+      display: grid;
+      gap: 9px;
+    }
+
+    .msg {
+      max-width: 85%;
+      border-radius: 12px;
+      padding: 10px 11px;
+      font-size: 14px;
+      line-height: 1.45;
+      white-space: pre-wrap;
+      animation: fade 180ms ease;
+    }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg.agent {
+      border: 1px solid #e1e6ef;
+      background: #fff;
+      color: #242e40;
+    }
+
+    .msg.user {
+      margin-left: auto;
+      border: 1px solid #b9d2ff;
+      background: #dbe9ff;
+      color: #14335f;
+    }
+
+    .chips {
+      border-top: 1px solid var(--line);
+      padding: 8px;
+      display: flex;
+      gap: 8px;
+      overflow: auto;
+      background: #f9fbff;
+    }
+
+    .chips button {
+      border: 1px solid #cfe0ff;
+      background: #edf4ff;
+      color: #2b4e88;
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .composer {
+      border-top: 1px solid #e3e8f2;
+      background: #f5f7fb;
+      padding: 10px 12px;
+    }
+
+    .compose {
+      border: 1px solid #d7deeb;
+      border-radius: 17px;
+      background: #fff;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 6px 6px 10px;
+    }
+
+    .compose input {
+      border: 0;
+      outline: none;
+      font-size: 17px;
+      color: #1f2937;
+      min-width: 0;
+    }
+
+    .voice,
+    .send {
+      width: 40px;
+      height: 40px;
+      border: 0;
+      border-radius: 12px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      font-size: 17px;
+    }
+
+    .voice {
+      background: #eff3fa;
+      color: #3a4458;
+    }
+
+    .send {
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      color: #fff;
+      box-shadow: 0 8px 14px rgba(33, 94, 234, 0.3);
+    }
+
+    .nav {
+      border-top: 1px solid #e5e9f2;
+      background: #fafbff;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 5px;
+      padding: 8px 8px 6px;
+    }
+
+    .nav-item {
+      text-align: center;
+      color: #4f596c;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 10px;
+      padding: 5px 2px;
+    }
+
+    .nav-item .i {
+      display: block;
+      font-size: 20px;
+      line-height: 1;
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+
+    .nav-item.active {
+      background: #e8efff;
+      color: #1d2e58;
+    }
+
+    @media (max-width: 430px) {
+      body { padding: 0; }
+      .phone { width: 100vw; height: 100vh; border-radius: 0; border: 0; }
+      .header h1 { font-size: 25px; }
+      .agent-copy { font-size: 18px; }
+      .primary-cta { font-size: 18px; }
+      .v { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="phone">
+    <div class="status">
+      <div class="time" id="clock">15:00</div>
+      <div class="sig"><span>5G</span><span>72%</span><span class="sig-dot"></span></div>
+    </div>
+
+    <header class="header">
+      <button class="back" aria-label="返回">‹</button>
+      <h1>志愿报告</h1>
+      <button class="archive">档案</button>
+    </header>
+
+    <section class="scroll" id="scrollArea">
+      <section class="notice" id="noticeBox">
+        <span class="notice-tag">公告</span>
+        <p>志愿报告由 AI 生成，正式填报须谨慎决策</p>
+        <button id="closeNotice" aria-label="关闭">×</button>
+      </section>
+
+      <section class="hero">
+        <button id="claimReport">领取报告</button>
+      </section>
+
+      <section class="card">
+        <div class="profile-head">
+          <div class="profile-title">
+            <div class="logo">档</div>
+            <div>
+              <h2>个人信息档案</h2>
+              <div class="stamp" id="updatedAt">更新于 2026/4/23 16:00</div>
+            </div>
+          </div>
+          <button class="edit-btn" id="toggleEdit">编辑信息</button>
+        </div>
+
+        <div class="basic-grid">
+          <div class="basic-item">
+            <div class="k">省份</div>
+            <div class="v" data-edit-field="province">广东</div>
+          </div>
+          <div class="basic-item">
+            <div class="k">科目</div>
+            <div class="v" data-edit-field="subjects">物/化/生</div>
+          </div>
+          <div class="basic-item">
+            <div class="k">分数</div>
+            <div class="v" data-edit-field="score">615</div>
+          </div>
+          <div class="basic-item">
+            <div class="k">排名</div>
+            <div class="v" data-edit-field="rank">14231</div>
+          </div>
+        </div>
+
+        <div class="detail">
+          <div class="detail-row">
+            <div class="detail-item">
+              <div class="k">目标院校</div>
+              <div class="v" data-edit-field="targetSchool">不限</div>
+            </div>
+            <div class="detail-item">
+              <div class="k">地域偏好</div>
+              <div class="v" data-edit-field="regionPref">新一线优先</div>
+            </div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-item">
+              <div class="k">专业偏好</div>
+              <div class="v" data-edit-field="majorPref">计算机与电子信息</div>
+            </div>
+            <div class="detail-item">
+              <div class="k">优先策略</div>
+              <div class="v" data-edit-field="strategy">专业优先</div>
+            </div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-item">
+              <div class="k">就业意向</div>
+              <div class="v" data-edit-field="careerIntent">互联网研发岗</div>
+            </div>
+            <div class="detail-item">
+              <div class="k">风险接受度</div>
+              <div class="v" data-edit-field="riskLevel">中等</div>
+            </div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-item">
+              <div class="k">调剂意愿</div>
+              <div class="v" data-edit-field="adjustment">可调剂</div>
+            </div>
+            <div class="detail-item">
+              <div class="k">限制条件</div>
+              <div class="v" data-edit-field="constraints">无色弱限制</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="agent-copy">
+        我将根据你的个人档案生成志愿报告。如有其他信息补充，也可以直接告诉我，比如有没有理想的目标院校，或者对专业方向的偏好。
+      </section>
+
+      <section class="primary-cta-wrap">
+        <div class="cta-arrow">↓</div>
+        <button class="primary-cta" id="primaryGenerate">暂无需补充，为我生成报告</button>
+      </section>
+
+      <section class="quick-tools">
+        <button id="btnClaim">领取报告</button>
+        <button id="btnAll">全部报告</button>
+        <button id="btnAnalyze">分析志愿表</button>
+      </section>
+
+      <section class="chat-card">
+        <div class="chat-log" id="chatLog">
+          <div class="msg agent">你好，我是志愿报告 Agent。你可以继续补充偏好，我会动态更新冲稳保和风险提示。</div>
+          <div class="msg agent">你更看重学校层次还是专业匹配？或者先告诉我你想去的城市。</div>
+        </div>
+        <div class="chips">
+          <button class="chip" data-prompt="我更看重专业匹配">专业优先</button>
+          <button class="chip" data-prompt="我倾向江浙沪城市">倾向江浙沪</button>
+          <button class="chip" data-prompt="我不想被调剂">不接受调剂</button>
+          <button class="chip" data-prompt="先给我冲稳保分配">先看冲稳保</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="composer">
+      <div class="compose">
+        <input id="messageInput" type="text" placeholder="发消息..." />
+        <button class="voice" title="语音">◉</button>
+        <button class="send" id="sendBtn" aria-label="发送">➤</button>
+      </div>
+    </section>
+
+    <nav class="nav">
+      <div class="nav-item"><span class="i">⌂</span>首页</div>
+      <div class="nav-item"><span class="i">⌕</span>查大学</div>
+      <div class="nav-item"><span class="i">▣</span>志愿表</div>
+      <div class="nav-item active"><span class="i">✦</span>志愿报告</div>
+    </nav>
+  </main>
+
+  <script>
+    const clockEl = document.getElementById("clock");
+    const updatedAtEl = document.getElementById("updatedAt");
+    const chatLog = document.getElementById("chatLog");
+    const messageInput = document.getElementById("messageInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const toggleEditBtn = document.getElementById("toggleEdit");
+    const editableFields = Array.from(document.querySelectorAll("[data-edit-field]"));
+    const claimReportBtn = document.getElementById("claimReport");
+    const primaryGenerateBtn = document.getElementById("primaryGenerate");
+    const quickChips = Array.from(document.querySelectorAll(".chip"));
+    const scrollArea = document.getElementById("scrollArea");
+
+    let editing = false;
+
+    function pad(number) {
+      return String(number).padStart(2, "0");
+    }
+
+    function setClock() {
+      const now = new Date();
+      clockEl.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+    }
+
+    function updateStamp() {
+      const now = new Date();
+      updatedAtEl.textContent = `更新于 ${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+    }
+
+    setClock();
+    window.setInterval(setClock, 15000);
+
+    function addMessage(type, text) {
+      const item = document.createElement("div");
+      item.className = `msg ${type}`;
+      item.textContent = text;
+      chatLog.appendChild(item);
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    function getProfile() {
+      return {
+        province: document.querySelector('[data-edit-field="province"]').textContent.trim(),
+        subjects: document.querySelector('[data-edit-field="subjects"]').textContent.trim(),
+        score: document.querySelector('[data-edit-field="score"]').textContent.trim(),
+        rank: document.querySelector('[data-edit-field="rank"]').textContent.trim(),
+        major: document.querySelector('[data-edit-field="majorPref"]').textContent.trim(),
+        region: document.querySelector('[data-edit-field="regionPref"]').textContent.trim(),
+        strategy: document.querySelector('[data-edit-field="strategy"]').textContent.trim(),
+        risk: document.querySelector('[data-edit-field="riskLevel"]').textContent.trim()
+      };
+    }
+
+    function buildReply(text) {
+      const profile = getProfile();
+      const input = text.toLowerCase();
+
+      if (input.includes("冲稳保")) {
+        return `已按当前档案给你初版比例：冲 20%，稳 55%，保 25%。基于${profile.province}考生样本，${profile.score}分配这个比例更稳。`;
+      }
+      if (input.includes("调剂")) {
+        return "我已经记录你的调剂偏好，接下来会在每组志愿里标注调剂风险，并给替代专业。";
+      }
+      if (input.includes("城市") || input.includes("江浙沪") || input.includes("地域")) {
+        return `收到，地域偏好按“${profile.region}”执行。我会优先给产业匹配度更高的城市院校。`;
+      }
+      if (input.includes("专业")) {
+        return `明白。你当前偏好“${profile.major}”，我会拆成核心专业、相近专业、保底专业三层建议。`;
+      }
+      return `已记录补充：${text}。我会基于${profile.province}（${profile.subjects}）、${profile.score}分、位次${profile.rank}，按“${profile.strategy}+${profile.risk}风险”更新结果。`;
+    }
+
+    function submitMessage(raw) {
+      const text = raw.trim();
+      if (!text) return;
+      addMessage("user", text);
+      messageInput.value = "";
+      sendBtn.disabled = true;
+      window.setTimeout(() => {
+        addMessage("agent", buildReply(text));
+        sendBtn.disabled = false;
+      }, 360);
+    }
+
+    function triggerGenerate() {
+      const profile = getProfile();
+      addMessage("agent", `报告生成中：已完成任务规划、知识检索和风险校验。当前档案为${profile.province}/${profile.subjects}，${profile.score}分，位次${profile.rank}。预计 15 秒可查看。`);
+      scrollArea.scrollTo({ top: scrollArea.scrollHeight, behavior: "smooth" });
+    }
+
+    sendBtn.addEventListener("click", () => submitMessage(messageInput.value));
+    messageInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") submitMessage(messageInput.value);
+    });
+
+    quickChips.forEach((chip) => {
+      chip.addEventListener("click", () => submitMessage(chip.dataset.prompt || ""));
+    });
+
+    toggleEditBtn.addEventListener("click", () => {
+      editing = !editing;
+      toggleEditBtn.textContent = editing ? "保存信息" : "编辑信息";
+      editableFields.forEach((field) => {
+        field.contentEditable = editing ? "true" : "false";
+        field.classList.toggle("editable", editing);
+      });
+      if (!editing) {
+        updateStamp();
+        addMessage("agent", "档案更新完成，我会按照新信息重新计算冲稳保和风险提醒。");
+      } else {
+        window.setTimeout(() => editableFields[0].focus(), 20);
+      }
+    });
+
+    claimReportBtn.addEventListener("click", triggerGenerate);
+    primaryGenerateBtn.addEventListener("click", triggerGenerate);
+
+    document.getElementById("btnClaim").addEventListener("click", triggerGenerate);
+    document.getElementById("btnAll").addEventListener("click", () => {
+      addMessage("agent", "你当前有 1 份主报告与 2 份备选报告（地域优先版、专业优先版）。");
+    });
+    document.getElementById("btnAnalyze").addEventListener("click", () => {
+      addMessage("agent", "把志愿表发我，我会从梯度、调剂风险、专业适配度三维做分析。");
+    });
+    document.getElementById("closeNotice").addEventListener("click", () => {
+      document.getElementById("noticeBox").style.display = "none";
+    });
+  </script>
+</body>
+</html>
