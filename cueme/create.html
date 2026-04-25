@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CueMe 创建小伙伴</title>
+  <style>
+    :root {
+      --bg: #eef3fb;
+      --line: #dce5f3;
+      --text: #141b2c;
+      --muted: #6b7892;
+      --brand: #2d63f2;
+      --brand2: #6d53ff;
+      --ok: #16a34a;
+      --warn: #d97706;
+      --bad: #dc2626;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 18px 10px;
+      background:
+        radial-gradient(circle at 100% 0%, #e8eeff 0%, transparent 35%),
+        radial-gradient(circle at 0% 0%, #f8faff 0%, transparent 35%),
+        var(--bg);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+    }
+
+    .phone {
+      width: min(430px, calc(100vw - 12px));
+      height: min(900px, calc(100vh - 20px));
+      border-radius: 30px;
+      overflow: hidden;
+      border: 2px solid #2f3340;
+      background: #f6f8fd;
+      box-shadow: 0 22px 68px rgba(12, 20, 46, 0.28);
+      display: grid;
+      grid-template-rows: auto auto auto 1fr auto;
+    }
+
+    .status {
+      padding: 12px 16px 3px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .top {
+      border-bottom: 1px solid #e5eaf2;
+      background: #f7f9fe;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px 10px;
+    }
+
+    .icon-btn {
+      border: 0;
+      background: transparent;
+      color: #3e475f;
+      font-size: 30px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0 4px;
+    }
+
+    .top h1 {
+      margin: 0;
+      text-align: center;
+      font-size: 30px;
+      line-height: 1;
+      font-weight: 800;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      padding: 9px 10px;
+      border-bottom: 1px solid #e5eaf2;
+      background: #fff;
+    }
+
+    .step {
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      border-radius: 999px;
+      border: 1px solid #deebff;
+      background: #f5f9ff;
+      padding: 5px 0;
+      font-weight: 700;
+    }
+
+    .step.active {
+      color: #fff;
+      border-color: transparent;
+      background: linear-gradient(120deg, var(--brand), var(--brand2));
+    }
+
+    .scroll {
+      overflow: auto;
+      padding: 10px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 14px;
+      padding: 10px;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 9px;
+    }
+
+    .field:last-child { margin-bottom: 0; }
+
+    label {
+      font-size: 13px;
+      color: #33425f;
+      font-weight: 700;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid #cddcf3;
+      border-radius: 10px;
+      padding: 9px 10px;
+      font-size: 14px;
+      color: #1f2937;
+      background: #fff;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 68px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
+    .avatar-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 7px;
+    }
+
+    .avatar-item {
+      border: 2px solid transparent;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      background: #f3f6fc;
+      transition: border-color .18s ease;
+    }
+
+    .avatar-item.active { border-color: #89b0ff; }
+
+    .avatar-item img {
+      width: 100%;
+      height: 76px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .preview {
+      border: 1px solid #d8e8ff;
+      background: linear-gradient(135deg, #e7f2ff, #f2f8ff);
+      border-radius: 14px;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .preview img {
+      width: 72px;
+      height: 72px;
+      border-radius: 14px;
+      object-fit: cover;
+      border: 1px solid #ccdcf6;
+      background: #fff;
+    }
+
+    .preview h4 {
+      margin: 0 0 4px;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .preview p {
+      margin: 0;
+      color: #36507a;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .score-board {
+      border-radius: 12px;
+      padding: 10px;
+      border: 1px solid #dbe7ff;
+      background: #f5f9ff;
+    }
+
+    .score-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 7px;
+    }
+
+    .score-head strong {
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .score-head span {
+      font-size: 12px;
+      color: #4a5a7d;
+      font-weight: 700;
+    }
+
+    .bar {
+      width: 100%;
+      height: 9px;
+      border-radius: 999px;
+      background: #dbe7ff;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .bar > i {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(120deg, var(--brand), var(--brand2));
+      transition: width .2s ease;
+    }
+
+    .score-desc {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.45;
+      color: #304261;
+    }
+
+    .score-desc.bad { color: var(--bad); }
+    .score-desc.warn { color: var(--warn); }
+    .score-desc.ok { color: var(--ok); }
+
+    .footer {
+      border-top: 1px solid #e5eaf3;
+      background: #f7f9fd;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .footer button {
+      border: 0;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 800;
+      padding: 11px 8px;
+      cursor: pointer;
+    }
+
+    .draft {
+      background: #e9effc;
+      color: #2f4264;
+    }
+
+    .publish {
+      background: linear-gradient(120deg, var(--brand), var(--brand2));
+      color: #fff;
+    }
+
+    .publish:disabled {
+      cursor: not-allowed;
+      filter: grayscale(.25);
+      opacity: .6;
+    }
+  </style>
+</head>
+<body>
+  <section class="phone" aria-label="创建小伙伴页面">
+    <div class="status">
+      <span id="clock">15:42</span>
+      <span>5G · 100%</span>
+    </div>
+    <header class="top">
+      <button id="backBtn" class="icon-btn" aria-label="返回">←</button>
+      <h1>创建小伙伴</h1>
+      <button class="icon-btn" aria-label="关闭">×</button>
+    </header>
+
+    <section class="steps">
+      <div class="step active">1 基础信息</div>
+      <div class="step active">2 人设故事</div>
+      <div class="step active">3 开场与回复</div>
+      <div class="step">4 发布审核</div>
+    </section>
+
+    <main class="scroll">
+      <article class="card">
+        <h3>角色基础信息</h3>
+        <div class="field">
+          <label for="nameInput">昵称</label>
+          <input id="nameInput" placeholder="例如：月红卿" value="月红卿" />
+        </div>
+        <div class="field">
+          <label for="genderInput">角色性别</label>
+          <select id="genderInput">
+            <option>女性</option>
+            <option>男性</option>
+            <option>中性</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="styleInput">互动风格</label>
+          <select id="styleInput">
+            <option>治愈陪伴</option>
+            <option>高冷神秘</option>
+            <option>剧情互动</option>
+            <option>知识辅助</option>
+          </select>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>选择角色形象</h3>
+        <div id="avatarGrid" class="avatar-grid"></div>
+      </article>
+
+      <article class="card">
+        <h3>人设故事（用于评分）</h3>
+        <div class="field">
+          <label for="storyInput">背景设定</label>
+          <textarea id="storyInput" placeholder="至少 30 字，描述身份、动机和互动边界。">她出身于世家，却在权谋与家族期待之间保持温柔与锋芒。擅长倾听与共情，能在聊天中提供情绪支持和决策建议。</textarea>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>开场白与快捷回复</h3>
+        <div class="field">
+          <label for="greetingInput">开场白（建议互动式）</label>
+          <textarea id="greetingInput" placeholder="例如：今天有点emo，愿意陪我聊聊吗？">你想先聊学习压力，还是感情烦恼？我先陪你把最卡的一件事理清楚。</textarea>
+        </div>
+        <div class="field">
+          <label for="quick1">快捷回复 1</label>
+          <input id="quick1" value="我有点焦虑" />
+        </div>
+        <div class="field">
+          <label for="quick2">快捷回复 2</label>
+          <input id="quick2" value="帮我做个计划" />
+        </div>
+        <div class="field">
+          <label for="quick3">快捷回复 3</label>
+          <input id="quick3" value="先听我说完" />
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>实时预览</h3>
+        <div class="preview">
+          <img id="previewAvatar" src="" alt="角色头像预览" />
+          <div>
+            <h4 id="previewName">月红卿</h4>
+            <p id="previewGreeting">你想先聊学习压力，还是感情烦恼？我先陪你把最卡的一件事理清楚。</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>发布评分</h3>
+        <div class="score-board">
+          <div class="score-head">
+            <strong id="scoreNum">0</strong>
+            <span id="starText">★ 0.0 / 5.0</span>
+          </div>
+          <div class="bar"><i id="scoreBar"></i></div>
+          <p id="scoreDesc" class="score-desc">正在评分中...</p>
+        </div>
+      </article>
+    </main>
+
+    <footer class="footer">
+      <button class="draft" id="saveBtn">保存草稿</button>
+      <button class="publish" id="publishBtn" disabled>提交发布</button>
+    </footer>
+  </section>
+
+  <script>
+    const avatars = [
+      "assets/avatars-grid/cueme.png",
+      "assets/avatars-grid/chengzhang.png",
+      "assets/avatars-grid/xuexi.png",
+      "assets/avatars-grid/jiankang.png",
+      "assets/avatars-grid/xiaosuo.png",
+      "assets/avatars-grid/liushuangyang.png",
+      "assets/avatars-grid/liuli.png",
+      "assets/avatars-grid/viktor.png"
+    ];
+
+    let selectedAvatar = avatars[5];
+    const avatarGrid = document.getElementById("avatarGrid");
+    const nameInput = document.getElementById("nameInput");
+    const storyInput = document.getElementById("storyInput");
+    const greetingInput = document.getElementById("greetingInput");
+    const quickInputs = [
+      document.getElementById("quick1"),
+      document.getElementById("quick2"),
+      document.getElementById("quick3")
+    ];
+
+    const previewAvatar = document.getElementById("previewAvatar");
+    const previewName = document.getElementById("previewName");
+    const previewGreeting = document.getElementById("previewGreeting");
+    const scoreNum = document.getElementById("scoreNum");
+    const scoreBar = document.getElementById("scoreBar");
+    const starText = document.getElementById("starText");
+    const scoreDesc = document.getElementById("scoreDesc");
+    const publishBtn = document.getElementById("publishBtn");
+
+    function pad(n) { return String(n).padStart(2, "0"); }
+    function tickClock() {
+      const now = new Date();
+      document.getElementById("clock").textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+    }
+    tickClock();
+    window.setInterval(tickClock, 15000);
+
+    function renderAvatars() {
+      avatarGrid.innerHTML = avatars.map((src) => `
+        <button type="button" class="avatar-item ${src === selectedAvatar ? "active" : ""}" data-src="${src}">
+          <img src="${src}" alt="头像候选" />
+        </button>
+      `).join("");
+    }
+
+    function calcScore() {
+      let score = 0;
+      const name = nameInput.value.trim();
+      const story = storyInput.value.trim();
+      const greet = greetingInput.value.trim();
+      const filledQuick = quickInputs.filter((item) => item.value.trim().length > 0).length;
+      const interactive = /[？?]/.test(greet) || /聊|陪|要不要|可以|愿意/.test(greet);
+
+      if (name.length >= 2) score += 20;
+      if (story.length >= 30) score += 20;
+      if (interactive && greet.length >= 16) score += 20;
+      if (filledQuick >= 3) score += 20;
+      if (selectedAvatar) score += 20;
+
+      return score;
+    }
+
+    function refresh() {
+      const score = calcScore();
+      const stars = (score / 20).toFixed(1);
+
+      previewAvatar.src = selectedAvatar;
+      previewName.textContent = nameInput.value.trim() || "未命名角色";
+      previewGreeting.textContent = greetingInput.value.trim() || "请填写开场白";
+
+      scoreNum.textContent = String(score);
+      starText.textContent = `★ ${stars} / 5.0`;
+      scoreBar.style.width = `${score}%`;
+
+      if (score < 60) {
+        scoreDesc.textContent = "评分低于 60：禁止发布。请优先补全人设、开场白与快捷回复。";
+        scoreDesc.className = "score-desc bad";
+        publishBtn.disabled = true;
+        publishBtn.textContent = "暂不可发布";
+      } else if (score < 80) {
+        scoreDesc.textContent = "评分 60-79：可发布但建议优化。建议强化人设细节和互动式开场。";
+        scoreDesc.className = "score-desc warn";
+        publishBtn.disabled = false;
+        publishBtn.textContent = "提交发布";
+      } else {
+        scoreDesc.textContent = "评分 ≥ 80：优质内容，可进入推荐候选池（约 4.0 / 5.0+）。";
+        scoreDesc.className = "score-desc ok";
+        publishBtn.disabled = false;
+        publishBtn.textContent = "提交发布";
+      }
+    }
+
+    avatarGrid.addEventListener("click", (event) => {
+      const btn = event.target.closest(".avatar-item");
+      if (!btn) return;
+      selectedAvatar = btn.dataset.src || selectedAvatar;
+      renderAvatars();
+      refresh();
+    });
+
+    [nameInput, storyInput, greetingInput, ...quickInputs].forEach((el) => {
+      el.addEventListener("input", refresh);
+    });
+
+    document.getElementById("backBtn").addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
+
+    document.getElementById("saveBtn").addEventListener("click", () => {
+      alert("草稿已保存（MVP演示态）。");
+    });
+
+    publishBtn.addEventListener("click", () => {
+      if (publishBtn.disabled) return;
+      alert("已提交审核：审核通过后将进入小伙伴广场。");
+    });
+
+    renderAvatars();
+    refresh();
+  </script>
+</body>
+</html>

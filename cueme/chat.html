@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CueMe 角色对话页</title>
+  <style>
+    :root {
+      --bg: #edf2fb;
+      --line: #dce5f3;
+      --text: #141b2c;
+      --muted: #6b7892;
+      --brand: #2d63f2;
+      --brand2: #6d53ff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at 100% 0%, #e8eeff 0%, transparent 35%),
+        radial-gradient(circle at 0% 0%, #f8faff 0%, transparent 35%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px 12px;
+    }
+
+    .phone {
+      width: min(430px, 100vw - 18px);
+      height: min(890px, calc(100vh - 26px));
+      border-radius: 30px;
+      overflow: hidden;
+      border: 2px solid #2f3340;
+      box-shadow: 0 18px 62px rgba(18, 35, 74, .24);
+      background: #f6f8fd;
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      position: relative;
+      animation: floatIn .55s ease;
+    }
+
+    @keyframes floatIn {
+      from { opacity: .2; transform: translateY(12px) scale(.985); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .status {
+      padding: 12px 16px 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .top {
+      border-bottom: 1px solid #e5eaf2;
+      background: #f7f9fe;
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      gap: 8px;
+      align-items: center;
+      padding: 5px 10px 10px;
+    }
+
+    .icon-btn {
+      border: 0;
+      background: transparent;
+      color: #3e475f;
+      font-size: 30px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0 4px;
+    }
+
+    .top h1 {
+      margin: 0;
+      text-align: center;
+      font-size: 32px;
+      line-height: 1;
+      font-weight: 800;
+    }
+
+    .scroll {
+      overflow: auto;
+      padding: 10px 12px;
+      scroll-behavior: smooth;
+    }
+
+    .hero {
+      border: 1px solid #d8e8ff;
+      background: linear-gradient(135deg, #e7f2ff, #f2f8ff);
+      border-radius: 16px;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 1fr 126px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .hero h2 {
+      margin: 0 0 6px;
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .hero p {
+      margin: 0;
+      color: #243349;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .hero img {
+      width: 126px;
+      height: 144px;
+      border-radius: 16px;
+      object-fit: cover;
+      border: 1px solid #cfdcf3;
+      background: #fff;
+      justify-self: end;
+    }
+
+    .tags {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tags span {
+      border: 1px solid #cfe0ff;
+      background: #edf4ff;
+      color: #2f5fb1;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+    }
+
+    .hook {
+      margin-top: 10px;
+      border-radius: 12px;
+      background: linear-gradient(120deg, var(--brand), var(--brand2));
+      color: #fff;
+      padding: 12px;
+      font-size: 15px;
+      line-height: 1.45;
+      box-shadow: 0 10px 24px rgba(55, 95, 208, .24);
+    }
+
+    .default-greet {
+      margin-top: 8px;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 14px;
+      color: #2f3a4f;
+      line-height: 1.5;
+    }
+
+    .chips {
+      margin-top: 10px;
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .chips button {
+      border: 1px solid #cfe0ff;
+      background: #eef4ff;
+      color: #2d4f8a;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 7px 10px;
+      cursor: pointer;
+    }
+
+    .chat {
+      margin-top: 10px;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 14px;
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+      min-height: 220px;
+    }
+
+    .msg {
+      max-width: 88%;
+      border-radius: 12px;
+      padding: 9px 10px;
+      font-size: 14px;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    .msg.bot {
+      background: #eff4ff;
+      border: 1px solid #d2e1ff;
+      color: #28406f;
+      justify-self: start;
+    }
+
+    .msg.user {
+      background: linear-gradient(120deg, var(--brand), var(--brand2));
+      color: #fff;
+      justify-self: end;
+    }
+
+    .composer {
+      border-top: 1px solid #e5eaf3;
+      background: #f7f9fd;
+      padding: 11px;
+    }
+
+    .input-wrap {
+      border: 2px solid #b7cdf8;
+      border-radius: 15px;
+      background: #fff;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+      padding: 6px 6px 6px 10px;
+    }
+
+    input {
+      border: 0;
+      outline: none;
+      font-size: 16px;
+      color: #1f2937;
+      min-width: 0;
+    }
+
+    .send {
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 11px;
+      color: #fff;
+      background: linear-gradient(120deg, var(--brand), var(--brand2));
+      font-size: 19px;
+      cursor: pointer;
+    }
+
+    .meta {
+      margin-top: 6px;
+      color: #6f7890;
+      font-size: 12px;
+    }
+
+    .guide-tip {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 78px;
+      background: #202a41;
+      color: #fff;
+      font-size: 13px;
+      line-height: 1.4;
+      border-radius: 10px;
+      padding: 8px 10px;
+      box-shadow: 0 10px 24px rgba(14, 24, 44, .32);
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: opacity .22s ease, transform .22s ease;
+    }
+
+    .guide-tip.show {
+      opacity: .96;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <section class="phone" aria-label="CueMe 角色对话子页">
+    <div class="status">
+      <span id="clock">15:42</span>
+      <span>5G · 100%</span>
+    </div>
+    <header class="top">
+      <button id="backBtn" class="icon-btn" aria-label="返回">←</button>
+      <h1 id="pageTitle">CueMe</h1>
+      <button class="icon-btn" aria-label="更多">…</button>
+      <button class="icon-btn" aria-label="关闭">×</button>
+    </header>
+
+    <main class="scroll">
+      <section class="hero">
+        <div>
+          <h2 id="heroName">Hi，我叫 CueMe</h2>
+          <p id="heroSlogan">学习工作生活，我都能帮你</p>
+          <div class="tags" id="tagList"></div>
+        </div>
+        <img id="heroAvatar" alt="角色头像" />
+      </section>
+
+      <section id="hook" class="hook"></section>
+      <section id="defaultGreeting" class="default-greet"></section>
+      <section id="quickReplies" class="chips"></section>
+
+      <section id="chatBox" class="chat"></section>
+    </main>
+
+    <footer class="composer">
+      <div class="input-wrap">
+        <input id="chatInput" placeholder="输入内容，或点击上方快捷回复" />
+        <button id="sendBtn" class="send">➤</button>
+      </div>
+      <div class="meta">点击上方引导气泡可直接发起第一句，降低冷启动门槛。</div>
+    </footer>
+    <div id="guideTip" class="guide-tip"></div>
+  </section>
+
+  <script src="assets/roles-data.js"></script>
+  <script>
+    const roles = window.CUEME_ROLES || [];
+    const params = new URLSearchParams(window.location.search);
+    const roleId = params.get("role");
+    const role = roles.find((item) => item.id === roleId) || roles[0];
+
+    const pageTitle = document.getElementById("pageTitle");
+    const heroName = document.getElementById("heroName");
+    const heroSlogan = document.getElementById("heroSlogan");
+    const heroAvatar = document.getElementById("heroAvatar");
+    const tagList = document.getElementById("tagList");
+    const hook = document.getElementById("hook");
+    const defaultGreeting = document.getElementById("defaultGreeting");
+    const quickReplies = document.getElementById("quickReplies");
+    const chatBox = document.getElementById("chatBox");
+    const chatInput = document.getElementById("chatInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const guideTip = document.getElementById("guideTip");
+
+    function pad(n) { return String(n).padStart(2, "0"); }
+    function tickClock() {
+      const now = new Date();
+      document.getElementById("clock").textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+    }
+    tickClock();
+    window.setInterval(tickClock, 15000);
+
+    pageTitle.textContent = role.name;
+    heroName.textContent = `Hi，我叫 ${role.name}`;
+    heroSlogan.textContent = role.slogan;
+    heroAvatar.src = role.avatar;
+    hook.textContent = role.hookGreeting;
+    defaultGreeting.textContent = role.defaultGreeting;
+    guideTip.textContent = role.guideTip;
+
+    tagList.innerHTML = (role.tags || []).map((tag) => `<span>${tag}</span>`).join("");
+    quickReplies.innerHTML = (role.quickReplies || []).map((text) => `<button type="button" data-text="${text}">${text}</button>`).join("");
+
+    function appendMsg(text, type) {
+      const div = document.createElement("div");
+      div.className = `msg ${type}`;
+      div.textContent = text;
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    appendMsg(role.defaultGreeting, "bot");
+
+    let hasInteraction = false;
+    function markInteraction() {
+      hasInteraction = true;
+      guideTip.classList.remove("show");
+    }
+
+    window.setTimeout(() => {
+      if (!hasInteraction) guideTip.classList.add("show");
+    }, 3000);
+
+    function botReply(userText) {
+      const clean = userText.trim();
+      if (!clean) return;
+      appendMsg(clean, "user");
+      markInteraction();
+
+      const generic = `${role.firstReply} 你刚才说的是「${clean}」，我先给你第一步可执行建议。`;
+      window.setTimeout(() => appendMsg(generic, "bot"), 280);
+    }
+
+    sendBtn.addEventListener("click", () => {
+      const text = chatInput.value.trim();
+      if (!text) return;
+      botReply(text);
+      chatInput.value = "";
+    });
+
+    chatInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") sendBtn.click();
+    });
+
+    quickReplies.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-text]");
+      if (!button) return;
+      botReply(button.dataset.text || "");
+    });
+
+    hook.addEventListener("click", () => botReply(role.quickReplies[0]));
+
+    document.getElementById("backBtn").addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>

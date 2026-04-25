@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CueMe 小伙伴广场</title>
+  <style>
+    :root {
+      --bg: #eef3fb;
+      --panel: #ffffff;
+      --line: #dce5f3;
+      --text: #141b2c;
+      --muted: #6b7892;
+      --brand: #2d63f2;
+      --brand2: #6d53ff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%, #f7faff 0%, transparent 33%),
+        radial-gradient(circle at 100% 0%, #e8eeff 0%, transparent 34%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px 12px;
+    }
+
+    .phone {
+      width: min(430px, 100vw - 18px);
+      height: min(890px, calc(100vh - 26px));
+      border-radius: 30px;
+      overflow: hidden;
+      border: 2px solid #2f3340;
+      box-shadow: 0 18px 62px rgba(18, 35, 74, 0.24);
+      background: #f5f7fc;
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      animation: floatIn .55s ease;
+    }
+
+    @keyframes floatIn {
+      from { opacity: .2; transform: translateY(12px) scale(.985); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .status {
+      padding: 12px 16px 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .top {
+      border-bottom: 1px solid #e5eaf2;
+      background: #f7f9fe;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      padding: 5px 12px 10px;
+    }
+
+    .logo {
+      margin: 0;
+      font-size: 52px;
+      line-height: 1;
+      font-weight: 800;
+      color: var(--brand);
+      font-style: italic;
+      font-family: "Trebuchet MS", "Avenir Next", sans-serif;
+    }
+
+    .close {
+      border: 0;
+      background: transparent;
+      color: #3e475f;
+      font-size: 34px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0 6px;
+    }
+
+    .content {
+      overflow: auto;
+      padding: 10px 12px 0;
+      scroll-behavior: smooth;
+    }
+
+    .hero {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 9px;
+      align-items: center;
+    }
+
+    .hero .avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 14px;
+      object-fit: cover;
+      border: 1px solid #d8e0ee;
+      background: #edf2fb;
+    }
+
+    .hero h3 {
+      margin: 0 0 4px;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .tips {
+      margin-top: 10px;
+      border-radius: 13px;
+      color: #fff;
+      background: linear-gradient(120deg, var(--brand), var(--brand2));
+      padding: 11px 12px;
+      box-shadow: 0 12px 28px rgba(59, 91, 246, 0.32);
+    }
+
+    .tips strong {
+      font-size: 14px;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .tips p {
+      margin: 0;
+      font-size: 15px;
+      opacity: .96;
+    }
+
+    .list {
+      margin-top: 10px;
+      display: grid;
+      gap: 8px;
+      padding-bottom: 90px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 9px;
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 10px;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: #bfd3ff;
+      box-shadow: 0 10px 24px rgba(37, 77, 173, .16);
+    }
+
+    .card::after {
+      content: "点击进入";
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      font-size: 11px;
+      color: #5c7dc4;
+      background: #edf3ff;
+      border: 1px solid #d3e2ff;
+      border-radius: 999px;
+      padding: 2px 8px;
+    }
+
+    .card .avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 13px;
+      object-fit: cover;
+      border: 1px solid #d8e0ee;
+      background: #edf2fb;
+    }
+
+    .card h4 {
+      margin: 0 0 4px;
+      font-size: 17px;
+      font-weight: 800;
+      line-height: 1.1;
+      padding-right: 62px;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      overflow: hidden;
+      padding-right: 6px;
+    }
+
+    .hook {
+      margin-top: 5px;
+      font-size: 12px;
+      color: #2f5eb2;
+      background: #edf4ff;
+      border: 1px solid #cfe0ff;
+      border-radius: 9px;
+      padding: 4px 8px;
+      display: inline-block;
+      max-width: 96%;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .bottom {
+      border-top: 1px solid #e4e9f2;
+      background: linear-gradient(90deg, #245cf0, #6748ff);
+      color: #fff;
+      min-height: 72px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .bottom button {
+      border: 0;
+      background: transparent;
+      color: #fff;
+      font-size: 22px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .bottom button:first-child {
+      border-right: 1px solid rgba(255, 255, 255, .2);
+    }
+  </style>
+</head>
+<body>
+  <section class="phone" aria-label="CueMe 列表页">
+    <div class="status">
+      <span id="clock">15:42</span>
+      <span>5G · 100%</span>
+    </div>
+    <header class="top">
+      <h1 class="logo">CueMe</h1>
+      <button class="close" aria-label="关闭">×</button>
+    </header>
+    <main class="content">
+      <article class="hero">
+        <img class="avatar" src="assets/avatars-grid/cueme.png" alt="CueMe" />
+        <div>
+          <h3>CueMe</h3>
+          <p>介绍一下人类20年半吊子数据科学发展历程和背景。</p>
+        </div>
+      </article>
+      <article class="tips">
+        <strong>NEW 热点速览</strong>
+        <p>量子计算突破｜Willow 将改写未来</p>
+      </article>
+      <section id="roleList" class="list"></section>
+    </main>
+    <footer class="bottom">
+      <button id="createBtn">＋ 创建小伙伴</button>
+      <button id="squareBtn">◉ 小伙伴广场</button>
+    </footer>
+  </section>
+
+  <script src="assets/roles-data.js"></script>
+  <script>
+    const roles = window.CUEME_ROLES || [];
+    const roleList = document.getElementById("roleList");
+
+    function pad(n) { return String(n).padStart(2, "0"); }
+    function tickClock() {
+      const now = new Date();
+      document.getElementById("clock").textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+    }
+    tickClock();
+    window.setInterval(tickClock, 15000);
+
+    roleList.innerHTML = roles.map((role) => `
+      <a class="card" href="chat.html?role=${encodeURIComponent(role.id)}">
+        <img class="avatar" src="${role.avatar}" alt="${role.name}头像" />
+        <div>
+          <h4>${role.name}</h4>
+          <p>${role.intro}</p>
+          <span class="hook">${role.hookGreeting}</span>
+        </div>
+      </a>
+    `).join("");
+
+    document.getElementById("createBtn").addEventListener("click", () => {
+      window.location.href = "create.html";
+    });
+
+    document.getElementById("squareBtn").addEventListener("click", () => {
+      window.location.href = "square.html";
+    });
+  </script>
+</body>
+</html>
