@@ -317,6 +317,21 @@
                 </div>
             </div>
 
+            <div class="article-card" data-category="skill" data-detail="ai-workflow">
+                <div class="article-image">
+                    <span class="emoji">🧭</span>
+                </div>
+                <div class="article-content">
+                    <span class="article-tag">AI协作</span>
+                    <h3 class="article-title">AI协作工作流</h3>
+                    <p class="article-desc">从直接把需求丢给 AI，到用头脑风暴、计划文件和完成标准管理 AI 产出</p>
+                    <div class="article-meta">
+                        <span class="date">2025-2026</span>
+                        <span class="author">查看详情</span>
+                    </div>
+                </div>
+            </div>
+
             <div class="article-card" data-category="skill" data-detail="数据标注">
                 <div class="article-image">
                     <span class="emoji">📊</span>
@@ -396,6 +411,22 @@
                     <p>当我开始体验 Claude Code、Dify、扣子这类工具时，感受最明显的是：AI 产品正在从“单次问答”走向“完成任务”。这要求产品设计更关注任务边界、工具调用、失败兜底和用户预期管理。</p>
                     <p><strong>现在我怎么看 AI 工具</strong></p>
                     <p>我不会只看一个工具能不能生成漂亮答案，而会更关注它在真实任务里的稳定性、可控性和可迁移性。对 AI 产品经理来说，持续体验工具是一种基本功，但更重要的是从体验里形成判断：什么能力已经成熟，什么只是演示效果，什么场景真的值得被产品化。</p>
+                `
+            },
+            'ai-workflow': {
+                title: 'AI协作工作流',
+                content: `
+                    <p>以前我会直接把需求丢给 Claude，让它开始写代码。结果经常是能跑，但方向跑偏，后面改来改去反而浪费时间。后来我慢慢意识到，和 AI 协作不是“发号施令”，而是要管理它的思考、记忆和收尾。</p>
+                    <p><strong>开工前：Brainstorming</strong></p>
+                    <p>我常用 Superpowers 里的 Brainstorming。它会让 Claude 反过来问我问题：并发怎么处理？数据结构怎么设计？异常情况怎么兜底？这些问题有些我自己一开始也没想到，但提前问出来，就能少很多返工。</p>
+                    <p>Superpowers 里有很多子技能，我不会全开。常用的是 Brainstorming，其他按需加载，避免占用太多上下文。</p>
+                    <p><strong>执行中：Planning with Files</strong></p>
+                    <p>长任务最怕做到一半上下文被压缩，模型突然忘记前面讨论过什么。Planning with Files 的思路是把计划写进本地文件，每完成一步就更新状态。这样就算对话变长，重新读计划文件也能继续推进。</p>
+                    <p><strong>收尾时：Ralph Loop</strong></p>
+                    <p>我把它理解成“完成标准检查”。Claude 有时会提前说“基础框架已经完成”，但实际离可用还差一步。Ralph Loop 会用更具体的完成标准拦住这种提前退出：没达到就继续做。</p>
+                    <p>关键不是让 AI 一直干活，而是完成条件必须具体。比如“完成用户模块”太模糊，“完成登录接口、注册接口、鉴权中间件、错误返回和基础测试”才有约束力。</p>
+                    <p><strong>最后留下来的判断</strong></p>
+                    <p>真正提升效率的不是装很多 Skill，而是把三个环节固定下来：开工前想清楚，执行中不断记录，收尾时用标准检查。这套工作流让我从“让 AI 写代码”，慢慢转向“管理 AI 完成任务”。</p>
                 `
             },
             '数据标注': {
