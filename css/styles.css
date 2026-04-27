@@ -56,9 +56,10 @@ button, .btn, .contact-card, .project-card, .social-link {
     height: 100%;
     pointer-events: none;
     z-index: -1;
-    opacity: 0.7;
+    opacity: 0.9;
     transition: opacity 0.15s ease;
     will-change: background;
+    mix-blend-mode: screen;
 }
 
 /* 导航栏 */
@@ -121,16 +122,57 @@ nav {
     align-items: center;
     position: relative;
     padding-top: 80px;
+    perspective: 1100px;
+    transform-style: preserve-3d;
+    --pointer-x: 0px;
+    --pointer-y: 0px;
+    --rotate-x: 0deg;
+    --rotate-y: 0deg;
+    --glow-x: 50%;
+    --glow-y: 42%;
+}
+
+.hero::before,
+.hero::after {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+}
+
+.hero::before {
+    inset: 10% 16%;
+    background: radial-gradient(circle at var(--glow-x) var(--glow-y), rgba(255, 51, 102, 0.32), rgba(255, 107, 107, 0.14) 18%, rgba(255, 160, 122, 0.08) 34%, transparent 62%);
+    filter: blur(62px);
+    opacity: 1;
+    transform: translate3d(calc(var(--pointer-x) * 0.07), calc(var(--pointer-y) * 0.07), 0) scale(1.08);
+    transition: opacity 0.3s ease;
+}
+
+.hero::after {
+    width: 280px;
+    height: 280px;
+    top: calc(var(--glow-y) - 140px);
+    left: calc(var(--glow-x) - 140px);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05) 36%, transparent 70%);
+    filter: blur(22px);
+    opacity: 0.8;
+    transform: translate3d(calc(var(--pointer-x) * -0.1), calc(var(--pointer-y) * -0.1), 0);
 }
 
 .hero-title {
     position: relative;
     width: 90vw;
     max-width: 1000px;
+    transform: rotateX(var(--rotate-x)) rotateY(var(--rotate-y)) translate3d(calc(var(--pointer-x) * 0.06), calc(var(--pointer-y) * 0.06), 0);
+    transform-style: preserve-3d;
+    filter: drop-shadow(0 14px 42px rgba(255, 51, 102, 0.18));
+    transition: transform 0.14s ease-out, filter 0.2s ease-out;
 }
 
 .avatar-container {
     margin-bottom: 2rem;
+    transform: translate3d(calc(var(--pointer-x) * -0.1), calc(var(--pointer-y) * -0.1), 68px);
+    transition: transform 0.14s ease-out;
 }
 
 .avatar {
@@ -139,7 +181,7 @@ nav {
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid var(--accent-pink);
-    box-shadow: 0 0 30px rgba(255, 51, 102, 0.3);
+    box-shadow: 0 0 38px rgba(255, 51, 102, 0.48), 0 0 82px rgba(255, 107, 107, 0.24);
 }
 
 .title-container {
@@ -147,8 +189,10 @@ nav {
     justify-content: center;
     align-items: center;
     gap: 8px;
-    transform: scale(1.5);
+    transform: scale(1.58);
     margin: 60px 0;
+    transform-style: preserve-3d;
+    will-change: transform;
 }
 
 .letter {
@@ -170,6 +214,7 @@ nav {
     stroke-linecap: round;
     stroke-linejoin: round;
     animation: rainbow 3s linear infinite;
+    filter: drop-shadow(0 0 18px rgba(255, 51, 102, 0.4));
 }
 
 .letter:nth-child(1) text { animation-delay: 0s; }
@@ -198,6 +243,9 @@ nav {
     color: var(--text-secondary);
     margin-top: 1rem;
     letter-spacing: 1px;
+    transform: translate3d(calc(var(--pointer-x) * 0.05), calc(var(--pointer-y) * 0.05), 38px);
+    text-shadow: 0 0 22px rgba(255, 107, 107, 0.18);
+    transition: transform 0.14s ease-out, text-shadow 0.2s ease-out;
 }
 
 .cta-button {
@@ -211,11 +259,14 @@ nav {
     font-weight: 500;
     transition: all 0.2s ease;
     border-bottom: 1px solid var(--text-secondary);
+    transform: translate3d(calc(var(--pointer-x) * 0.08), calc(var(--pointer-y) * 0.08), 52px);
+    box-shadow: 0 0 0 rgba(255, 51, 102, 0);
 }
 
 .cta-button:hover {
     color: #ffffff;
     border-bottom-color: transparent;
+    box-shadow: 0 16px 42px rgba(255, 51, 102, 0.3);
 }
 
 .cta-button svg {
@@ -457,5 +508,27 @@ footer {
     
     .content-section {
         padding: 60px 1.5rem;
+    }
+
+    .hero,
+    .hero-title,
+    .avatar-container,
+    .subtitle,
+    .cta-button,
+    .hero::before,
+    .hero::after {
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero::before,
+    .hero::after,
+    .hero-title,
+    .avatar-container,
+    .subtitle,
+    .cta-button {
+        transition: none;
+        transform: none;
     }
 }
